@@ -23,8 +23,9 @@ class SigninFormRequest extends FormRequest
     {
         return [
             //
-            "username" => "required|string",
+            "name" => "required|string",
             "password" => "required|string",
+            "remember" => "integer",
         ];
 
     }
@@ -32,8 +33,9 @@ class SigninFormRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            "username" => strip_tags($this->username),
+            "name" => strip_tags($this->name),
             "password" => strip_tags($this->password),
+            "remember" => $this->remember == 1 ? true:false,
         ]);
     }
 

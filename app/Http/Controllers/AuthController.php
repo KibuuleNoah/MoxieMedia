@@ -24,14 +24,14 @@ class AuthController extends Controller
     {
         // Logic for processing signup form data will go here.
         $data = $request->validated();
+        // hash user raw password
         $data["password"] = Hash::make($data["password"]);
-        $data["name"] = $data["username"];
-
+        // create a new user
         $user = User::create($data);
-
+        // authenticate the newly created user
         Auth::login($user,true);
 
-        return redirect()->intended("/blogs");
+        return redirect()->intended(route("blogs.index"))->with("success","Account Created Successfully!!!");
 
     }
 
@@ -42,11 +42,32 @@ class AuthController extends Controller
         return view("auth.signin");
     }
 
+
     // Handles the signin form submission.
     public function signinPost(SigninFormRequest $request)
     {
         // Logic for processing login form data will go here.
         $data = $request->validated();
+        $remember = $data->remember;
+        // remove remember me value from cre
+        unset($data["remember"]);
+
+        if (Auth::attempt($data,$remember)){
+
+            $request->session()->regenerate();
+
+            return redirect()->intended(route("blogs.index"))->with("success","Successfully Logged In");
+        }
+
+        return back();
+    }
+
+    public function signout(Request $request){
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        return redirect()->route("blogs.index")->withSuccess("Successfully Logged Out");
     }
 }
 

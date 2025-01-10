@@ -11,6 +11,7 @@ Route::prefix("auth")->group(function() {
     Route::post("signup",[AuthController::class,"signupPost"])->name("auth.signup.post");
     Route::get("signin",[AuthController::class,"signinGet"])->name("auth.signin.get");
     Route::post("signin",[AuthController::class,"signinPost"])->name("auth.signin.post");
+    Route::get("signout",[AuthController::class,"signout"])->name("auth.signout");
 });
 
 

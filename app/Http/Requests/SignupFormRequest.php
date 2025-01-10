@@ -22,7 +22,7 @@ class SignupFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "username" => "required|string|min:4|max:20",
+            "name" => "required|string|min:4|max:20",
             "email" => "required|email",//:rfc,dns",
             "password" => "required|string|min:8|confirmed",
         ];
@@ -30,7 +30,7 @@ class SignupFormRequest extends FormRequest
 
     protected function prepareForValidation(){
         $this->merge([
-            "username" => strip_tags($this->username),
+            "name" => strip_tags($this->name),
             "email" => strip_tags($this->email),
             "password" => strip_tags($this->password),
         ]);

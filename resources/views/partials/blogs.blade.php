@@ -22,8 +22,8 @@
               </p>
 
               <div class="flex items-center justify-between mt-4">
-                <div class="text-xs text-gray-500 dark:text-gray-400">Published {{ $blog->created_at->diffForHumans() }}</p></div>
-                <div>{{ $blog->reads }}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400"><i class="bx bx-calendar-event"></i> Published {{ $blog->created_at->diffForHumans() }}</p></div>
+                <div><i class="bx bx-show-alt"></i> {{ $blog->reads }}</div>
               </div>
 
               <!-- Read More Button -->
@@ -35,7 +35,7 @@
                   Read More
                 </a>
                 @if ($blog->member_content)
-                    <span class="text-green-900">MC</span>
+                    <span class="text-yellow-200"><i class="bx bx-lock bx-sm"></i></span>
                 @endif
               </div>
             </div>
@@ -43,4 +43,5 @@
         </div>
 
     @endforeach
+    {{-- {{ $hasMore }} --}}
 

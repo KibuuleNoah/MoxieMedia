@@ -6,6 +6,7 @@ use App\Http\Requests\CommentFormRequest;
 use App\Models\Blog;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -30,11 +31,15 @@ class CommentController extends Controller
      */
     public function store(CommentFormRequest $request)
     {
+        if (!Auth::check()){
+            return redirect()->route("auth.sigin.get")->with("error","Signin or Signup To Comment");
+        }
+
         $data = $request->validated();
 
         Comment::create($data);
 
-        return redirect()->back();
+        return redirect()->back()->with("success","Thanks For Your Feedback");
     }
 
     /**

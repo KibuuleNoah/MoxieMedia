@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -51,11 +52,32 @@ class BlogController extends Controller
             // if blog is for members and current user
             // is not authenticated redirect to login
 
-            return redirect()->route("auth.signin.get");
+            return redirect()->route("auth.signin.get")->with("error","Login Required To Read This!!!, Login To Continue");
 
         }
+        // get current user
+        $user = Auth::user();
+        // get current user comment for this blog post
+        $user_comment = $user->comments()
+                         ->where("blog_id",$blog->id)
+                         ->first();
 
-        return view("blogs.show",["blog" => $blog]);
+        // get sample comments
+        $sample_comments = $blog->sample_comments->all();
+
+        if ($user_comment){
+            // remove current user comment is exists
+            //  is the sample comments
+            $sample_comments = array_filter($sample_comments,function($comment) use ($user_comment){
+                return $comment != $user_comment;
+            });
+        }
+
+        return view("blogs.show",[
+            "blog" => $blog,
+            "sample_comments" => $sample_comments,
+            "user" => $user,
+            "user_comment" => $user_comment]);
     }
 
     /**
@@ -102,9 +124,10 @@ class BlogController extends Controller
     public function fetchBlogs(Request $request, int $page = 1)
     {
         $blogs = Blog::orderBy('created_at', 'desc')->paginate(3, ['*'], 'page', $page);
+        $hasMore = $blogs->hasMorePages();
 
         // Return a rendered Blade view for the posts
-        return view('partials.blogs', compact('blogs'))->render();
+        return view('partials.blogs', compact('blogs',"hasMore"))->render();
     }
 
 }

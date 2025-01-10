@@ -12,6 +12,7 @@
     <!-- Header -->
     <header class="bg-white shadow dark:bg-gray-800 dark:shadow-gray-700">
       @include("partials.nav_bar")
+      @include("partials.alert")
     </header>
 
     <main class="container mx-auto py-10 px-6">
@@ -39,6 +40,7 @@ $(document).ready(function () {
                 button.prop('disabled', true); // Disable button
             },
             success: function (response) {
+                alert(response.hasMore)
                 // Append the rendered HTML to the container
                 $('#blogContainer').append(response);
 

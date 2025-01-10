@@ -9,10 +9,12 @@
       class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 w-full max-w-md"
     >
       <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
-      <form action="{{ route('auth.signup.post') }}" method="POST">
+          @include("partials.alert")
+
+      <form action="{{ route('auth.signin.post') }}" method="POST">
         @csrf
 
-        <x-form-input type="email" id="email" name="email" placeholder="" label="Email"/>
+        <x-form-input type="text" id="name" name="name" placeholder="" label="Username"/>
 
         <x-form-input type="password" id="password" name="password" placeholder="" label="Password"/>
 
@@ -38,7 +40,7 @@
           type="submit"
           class="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-indigo-700 dark:bg-indigo-400 dark:hover:bg-indigo-500 transition-colors"
         >
-          Login
+          Signin
         </button>
       </form>
 

@@ -26,6 +26,13 @@
 
     <div id="blogPreviewContainer" class="hidden m-3 md:m-5 lg:m-10">
         <article id="blogPreview" class="prose mx-auto"></article>
+        <x-form-input type="file" id="thumnail" name="thumnail" placeholder="" label="Upload Thumail"/>
+
+        <input id="blogContent" name="blog-content" type="hidden" value="">
+
+        <x-form-input type="text" id="tags" name="tags" placeholder="tag1, tags2, ..." label="Blog Tags"/>
+
+
         <div class="mt-4 flex justify-between">
             <div>
                 <button
@@ -39,7 +46,7 @@
             <div>
                 <form method="post" action="{{ route('blogs.store') }}">
                     @csrf
-                    <input id="blogContent" name="blog-content" type="hidden" value="">
+
                     <button
                         id="publishBtn"
                         href="#"
